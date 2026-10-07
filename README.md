@@ -119,33 +119,33 @@ flowchart TD
         OCTOKIT_ASSIGN["Octokit Issue Assignment"]
     end
 
-    subgraph Ingestion_Layer["Data Ingestion & Extraction"]
+    subgraph Ingestion_Layer["Data Ingestion and Extraction"]
         COLLECTOR["Collector Service (Octokit REST)"]
-        DIFF_PARSER["Commit & File Diff Extractor"]
+        DIFF_PARSER["Commit and File Diff Extractor"]
     end
 
-    subgraph Storage_Layer["PostgreSQL 16 + pgvector"]
-        DB_RECORDS[("Relational Tables\n• developers\n• issues\n• commits\n• pull_requests\n• changed_files")]
-        DB_VECTORS[("pgvector Store\n• developer_embeddings (768-dim)\n• issue_recommendations")]
+    subgraph Storage_Layer["PostgreSQL 16 and pgvector"]
+        DB_RECORDS[("Relational Database<br/>- developers<br/>- issues<br/>- commits<br/>- pull_requests<br/>- changed_files")]
+        DB_VECTORS[("pgvector Store<br/>- developer_embeddings (768-dim)<br/>- issue_recommendations")]
     end
 
     subgraph AI_Provider["Dual AI Provider Abstraction"]
         PROVIDER_SELECTOR{"AI_PROVIDER"}
-        OLLAMA["Ollama (Local)\n• nomic-embed-text\n• llama3.2"]
-        GEMINI["Google AI (Cloud)\n• gemini-embedding-001\n• gemini-3.8-flash"]
+        OLLAMA["Ollama (Local)<br/>- nomic-embed-text<br/>- llama3.2"]
+        GEMINI["Google AI (Cloud)<br/>- gemini-embedding-001<br/>- gemini-3.8-flash"]
     end
 
     subgraph Recommendation_Pipeline["Recommendation Engine"]
         ISSUE_VEC["Issue Vectorizer (768-dim)"]
-        COSINE_SEARCH["pgvector Cosine Search (<=>)"]
-        MCDA_SCORER["Multi-Signal Weighted Scorer\n(60% Vector + 25% Recency + 15% Volume)"]
+        COSINE_SEARCH["pgvector Cosine Similarity Search"]
+        MCDA_SCORER["Multi-Signal Weighted Scorer<br/>(60% Vector + 25% Recency + 15% Volume)"]
         LLM_EXPLAINER["LLM Rationale Synthesizer"]
     end
 
     subgraph Application_UI["Next.js 16 App Router UI"]
-        DASHBOARD["Dashboard & Repositories"]
-        TRIAGE_VIEW["Issue Triage & Recommendation Card"]
-        HUMAN_CONFIRM{{"Human Maintainer Review & Click"}}
+        DASHBOARD["Dashboard and Repositories"]
+        TRIAGE_VIEW["Issue Triage and Recommendation Card"]
+        HUMAN_CONFIRM{{"Human Maintainer Review and Click"}}
     end
 
     subgraph Notification_SideEffects["Side-Effect Dispatch"]
@@ -159,7 +159,8 @@ flowchart TD
     DB_RECORDS --> PROVIDER_SELECTOR
     PROVIDER_SELECTOR -->|ollama| OLLAMA
     PROVIDER_SELECTOR -->|google| GEMINI
-    OLLAMA & GEMINI --> DB_VECTORS
+    OLLAMA --> DB_VECTORS
+    GEMINI --> DB_VECTORS
 
     GH_ISSUE --> GH_HOOK
     GH_HOOK --> COLLECTOR
@@ -191,10 +192,10 @@ graph LR
     end
 
     subgraph Signals
-        D["Cosine Semantic Match<br/><b>60% Weight</b>"]
-        E["Time Decay Recency<br/><b>25% Weight</b>"]
-        F["Commit & PR Volume<br/><b>15% Weight</b>"]
-        G["Domain Keyword Match<br/><b>+Bonus Multiplier</b>"]
+        D["Cosine Semantic Match<br/>(60% Weight)"]
+        E["Time Decay Recency<br/>(25% Weight)"]
+        F["Commit and PR Volume<br/>(15% Weight)"]
+        G["Domain Keyword Match<br/>(+Bonus Multiplier)"]
     end
 
     subgraph Aggregator
@@ -284,21 +285,12 @@ npm install
 ---
 
 ### 3. Spin Up PostgreSQL with pgvector
-Run a Docker container with the official `pgvector` image:
+You can spin up PostgreSQL with `pgvector` with a single command:
 
 ```bash
-docker run -d \
-  --name pgvector \
-  -e POSTGRES_PASSWORD=password \
-  -e POSTGRES_DB=ai_dev_recommender \
-  -p 5432:5432 \
-  pgvector/pgvector:pg16
+npm run psgl
 ```
-
-Verify that the container is healthy:
-```bash
-docker ps --filter "name=pgvector"
-```
+*(This automatically boots the existing `pgvector` container or creates it if not already present).*
 
 ---
 
@@ -347,7 +339,7 @@ RESEND_API_KEY=re_yourResendApiKeyHere
 RESEND_FROM_EMAIL=onboarding@resend.dev
 ```
 
-If using Ollama, pull the embedding and chat models:
+If using Ollama, pull the embedding and chat models once:
 ```bash
 ollama pull nomic-embed-text
 ollama pull llama3.2
@@ -369,10 +361,17 @@ npm run db:studio
 
 ---
 
-### 6. Run the Application
-Start the Next.js development server:
+### 6. The 3 Daily Run Commands
+For daily development, you only need to run these **3 commands**:
 
 ```bash
+# Terminal 1: Starts PostgreSQL + pgvector Docker/Podman container
+npm run psgl
+
+# Terminal 2: Starts the local Ollama LLM & embedding server
+npm run ollama
+
+# Terminal 3: Starts the Next.js development website
 npm run dev
 ```
 
