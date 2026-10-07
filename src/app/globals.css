@@ -1,0 +1,285 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Clay Design Tokens (DESIGN.md)                                     */
+/* ------------------------------------------------------------------ */
+:root {
+  /* Clay Canvas & Surfaces */
+  --canvas:               #fffaf0; /* Warm cream canvas */
+  --surface-card:         #f5f0e0; /* Warm cream card */
+  --surface-soft:         #faf5e8; /* Soft warm surface */
+  --surface-strong:       #ebe6d6; /* Structured warm surface */
+  --surface-white:        #ffffff; /* Pristine white card */
+  --surface-dark:         #0a1a1a;
+  --surface-dark-elevated:#1a2a2a;
+
+  /* Clay Ink & Typography */
+  --ink:                  #0a0a0a; /* Dark navy / pure ink */
+  --body:                 #3a3a3a; /* High readability neutral */
+  --body-strong:          #1a1a1a;
+  --muted:                #6a6a6a;
+  --muted-soft:           #9a9a9a;
+
+  /* Clay Hairlines */
+  --hairline:             #e5e5e5;
+  --hairline-soft:        #f0f0f0;
+
+  /* Clay Saturated Feature Colors */
+  --brand-pink:           #ff4d8b;
+  --brand-teal:           #1a3a3a;
+  --brand-lavender:       #b8a4ed;
+  --brand-peach:          #ffb084;
+  --brand-ochre:          #e8b94a;
+  --brand-mint:           #a4d4c5;
+  --brand-coral:          #ff6b5a;
+
+  /* Status Colors */
+  --success:              #16a34a;
+  --warning:              #d97706;
+  --error:                #dc2626;
+
+  /* Shadcn Theme Variables mapped to Clay tokens */
+  --background:           #fffaf0;
+  --foreground:           #0a0a0a;
+  --card:                 #ffffff;
+  --card-foreground:      #0a0a0a;
+  --popover:              #ffffff;
+  --popover-foreground:   #0a0a0a;
+  --primary:              #0a0a0a;
+  --primary-foreground:   #ffffff;
+  --secondary:            #f5f0e0;
+  --secondary-foreground: #0a0a0a;
+  --muted-bg:             #faf5e8;
+  --muted-foreground:     #6a6a6a;
+  --accent:               #f5f0e0;
+  --accent-foreground:    #0a0a0a;
+  --destructive:          #ef4444;
+  --destructive-foreground: #ffffff;
+  --border:               #e5e5e5;
+  --input:                #e5e5e5;
+  --ring:                 #0a0a0a;
+
+  /* Sidebar Tokens (Clay Palette) */
+  --sidebar:              #faf5e8;
+  --sidebar-foreground:   #0a0a0a;
+  --sidebar-primary:      #0a0a0a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent:       #f5f0e0;
+  --sidebar-accent-foreground: #0a0a0a;
+  --sidebar-border:       #e5e5e5;
+  --sidebar-ring:         #0a0a0a;
+
+  --radius:               0.75rem; /* 12px Clay default */
+  --radius-xs:            6px;
+  --radius-sm:            8px;
+  --radius-md:            12px;
+  --radius-lg:            16px;
+  --radius-xl:            24px;
+  --radius-pill:          9999px;
+
+  /* Shadows */
+  --shadow-subtle:        0 1px 3px rgba(10, 10, 10, 0.04), 0 1px 2px rgba(10, 10, 10, 0.02);
+  --shadow-card:          0 4px 16px rgba(10, 10, 10, 0.04), 0 1px 2px rgba(10, 10, 10, 0.02);
+  --shadow-card-hover:    0 8px 24px rgba(10, 10, 10, 0.08), 0 2px 4px rgba(10, 10, 10, 0.03);
+  --shadow-popover:       0 12px 32px rgba(10, 10, 10, 0.12), 0 2px 6px rgba(10, 10, 10, 0.04);
+}
+
+@theme inline {
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted-bg);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    border-color: var(--border);
+  }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    background-color: var(--canvas);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--canvas);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  code, pre {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* High Contrast Dark Buttons & Links (Fix Black on Black)            */
+/* ------------------------------------------------------------------ */
+[data-slot="button"][data-variant="default"],
+.btn-primary,
+a[class*="bg-[var(--ink)]"],
+button[class*="bg-[var(--ink)]"],
+a[class*="bg-primary"],
+button[class*="bg-primary"],
+a[class*="bg-black"],
+button[class*="bg-black"],
+[data-slot="badge"][data-variant="default"] {
+  color: #ffffff !important;
+}
+
+a[class*="bg-[var(--ink)]"] svg,
+button[class*="bg-[var(--ink)]"] svg,
+a[class*="bg-primary"] svg,
+button[class*="bg-primary"] svg,
+[data-slot="button"][data-variant="default"] svg {
+  color: #ffffff !important;
+  stroke: currentColor;
+}
+
+/* ------------------------------------------------------------------ */
+/* Clay Saturated Feature Cards (from DESIGN.md)                       */
+/* ------------------------------------------------------------------ */
+.feature-card-pink {
+  background-color: var(--brand-pink);
+  color: #ffffff;
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.feature-card-teal {
+  background-color: var(--brand-teal);
+  color: #ffffff;
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.feature-card-lavender {
+  background-color: var(--brand-lavender);
+  color: var(--ink);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.feature-card-peach {
+  background-color: var(--brand-peach);
+  color: var(--ink);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.feature-card-ochre {
+  background-color: var(--brand-ochre);
+  color: var(--ink);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+/* ------------------------------------------------------------------ */
+/* Stat Cards                                                           */
+/* ------------------------------------------------------------------ */
+.stat-card {
+  border-radius: var(--radius-xl);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.stat-card-white {
+  background-color: #ffffff;
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-card);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.stat-value {
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.stat-sub {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* ------------------------------------------------------------------ */
+/* Spinner                                                              */
+/* ------------------------------------------------------------------ */
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(10, 10, 10, 0.15);
+  border-top-color: var(--ink);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
