@@ -536,6 +536,6 @@ Distributed under the **MIT License**. See [`LICENSE`](./LICENSE) for more infor
 ---
 
 <div align="center">
-  <p>Built with ❤️ by <a href="https://github.com/ayushbin07"><strong>Ayush Binwal</strong></a></p>
+  <p>Built with ❤️ by <a href="https://github.com/ayushbin07"><strong>Ayush Bin</strong></a></p>
   <p><em>Advancing open-source collaboration through explainable artificial intelligence.</em></p>
 </div>
